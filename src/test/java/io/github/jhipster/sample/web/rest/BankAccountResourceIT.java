@@ -1,11 +1,13 @@
 package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.JhipsterSampleMicroserviceApp;
+import io.github.jhipster.sample.QuickPerfConfig;
 import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.quickperf.sql.annotation.DisplaySqlOfTestMethodBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,9 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Integration tests for the {@link BankAccountResource} REST controller.
  */
-@SpringBootTest(classes = JhipsterSampleMicroserviceApp.class)
+@SpringBootTest(classes = {JhipsterSampleMicroserviceApp.class, QuickPerfConfig.class})
 @AutoConfigureMockMvc
 @WithMockUser
+@DisplaySqlOfTestMethodBody
 public class BankAccountResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
@@ -167,7 +170,7 @@ public class BankAccountResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.intValue())));
     }
-    
+
     @Test
     @Transactional
     public void getBankAccount() throws Exception {
